@@ -27,7 +27,10 @@
   import { useElementSize, useDebounceFn } from "@vueuse/core";
   import { message as AMessage } from "ant-design-vue";
   import waterfallImages from "@/utils/waterfallImg.js"; //可以进入该文件修改目录中的图片或者格式
-  import { createInterObserver } from "@/utils/IntersectionObserver.js";
+  import {
+    createInterObserver,
+    removeInterObserver,
+  } from "@/utils/IntersectionObserver.js";
   import { buildUUID, findMindex } from "../utils";
 
   const wfCRef = ref(null);
@@ -68,7 +71,10 @@
         index < pageIndex.value * pageSize
     );
     if (allImgKeys.length === 0) {
+      removeInterObserver();
+      isLoadFinishAllImg.value = true;
       isNoMore.value = true;
+      return;
     }
     const allImgNum = allImgKeys.length;
     let loadedImgNum = 0; //加载好了几张图片
@@ -140,6 +146,8 @@
         }
       });
     }
+    removeInterObserver();
+    createInterObserver(loadMoreRef.value, loadMore);
   };
 
   const debounceReArrange = useDebounceFn(() => {
@@ -220,6 +228,9 @@
       text-align: center;
       margin-top: 8px;
       margin-bottom: 32px;
+      // position: absolute;
+      // left: 50%;
+      // bottom: -100px;
       .more-text {
         color: #268213;
         font-size: 36px;
