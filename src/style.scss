@@ -1,0 +1,30 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* Dropdown中自定义展开菜单样式 */
+.ant-dropdown.dropdown-internal {
+  width: 672px;
+  // max-height: 335px;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 2px 3px 8px 0px rgba(157, 167, 176, 0.18);
+}
+
+.ant-modal {
+  .ant-modal-content {
+    .ant-modal-footer {
+      text-align: center;
+    }
+  }
+}
