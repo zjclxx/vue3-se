@@ -1,6 +1,6 @@
 const GLOBAL_CONFIG = {
   // 代理到的服务器
-  BASE_API: "http://192.168.2.46:18601/api/cec",
+  BASE_API: "",
   // 代理的key
   BASE_PROXY_URL: "/basic-api",
 };

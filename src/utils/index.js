@@ -71,6 +71,7 @@ export function buildShortUUID(prefix = "") {
   const result = prefix + "_" + random + unique + String(time);
 }
 
+//找出最小的返回
 export function findMindex(arr) {
   return arr.reduce((acc, cur, index) => (cur < arr[acc] ? index : acc), 0);
 }
