@@ -5,7 +5,6 @@ export function createInterObserver(dom, fn) {
     (entries) => {
       if (entries.length && entries[0].isIntersecting) {
         fn();
-        ob.observe(dom);
       }
     },
     {
@@ -14,12 +13,15 @@ export function createInterObserver(dom, fn) {
       threshold: 0,
     }
   );
-  ob.observe(dom);
+  if (ob) {
+    ob.observe(dom);
+  }
 }
 
 export function removeInterObserver() {
-  // ob && ob.unobserve(dom);
-  ob && ob.disconnect();
+  if (ob) {
+    ob.disconnect();
+  }
   // console.log("disconnect");
   ob = null;
 }

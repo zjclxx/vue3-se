@@ -25,13 +25,14 @@
 <script setup>
   import { nextTick, onMounted, ref, watch } from "vue";
   import { useElementSize, useDebounceFn } from "@vueuse/core";
-  import { message as AMessage } from "ant-design-vue";
+  import { message as AMessage, Modal as AModal } from "ant-design-vue";
   import waterfallImages from "@/utils/waterfallImg.js"; //可以进入该文件修改目录中的图片或者格式
   import {
     createInterObserver,
     removeInterObserver,
   } from "@/utils/IntersectionObserver.js";
   import { buildUUID, findMindex } from "../utils";
+  import cache from "@/plugins/cache.js";
 
   const wfCRef = ref(null);
   const { width: wfCRefWidth } = useElementSize(wfCRef); //动态监听容器宽度，保持响应式
@@ -48,15 +49,37 @@
 
   const loadMoreRef = ref(null);
   const pageIndex = ref(1); //第一页开始获取
-  const pageSize = 10; //一次性获取10张(可配置)
+  const pageSize = 6; //一次性获取多少张(可配置)
 
   const isNoMore = ref(false); //是否还有更多的图片可以获取,并且移除该dom取消observer监听
 
+  const FIRST_DESC = "first_desc";
+
   onMounted(() => {
+    firstLoadDescription();
     nextTick(() => {
-      createInterObserver(loadMoreRef.value, loadMore);
+      if (loadMoreRef.value) {
+        createInterObserver(loadMoreRef.value, loadMore);
+      }
     });
   });
+
+  const firstLoadDescription = () => {
+    // const sessionDesc = cache.session.getJSON(FIRST_DESC);
+    // if(!sessionDesc) {
+    console.log("cache", cache);
+    AModal.info({
+      title: "首次加载说明",
+      content:
+        "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。",
+      okText: "知道了",
+      keyboard: false,
+      onOk: () => {
+        // cache.session.setJSON(FIRST_DESC, 'first-loaded');
+      },
+    });
+    // }
+  };
 
   const loadMore = () => {
     console.log("触发加载");
@@ -118,11 +141,25 @@
   };
 
   const debounceComputeNum = useDebounceFn(() => {
+    refreshObserver();
     computeNum();
-  }, 350);
+  }, 300);
+
+  const refreshObserver = () => {
+    removeInterObserver();
+    if (loadMoreRef.value) {
+      createInterObserver(loadMoreRef.value, loadMore);
+    }
+  };
 
   const reArrange = () => {
     // console.log("aaa");
+    if (listNum.value === 0) {
+      isNoMore.value = true;
+      return;
+    } else {
+      isNoMore.value = false;
+    }
     columnInfoList.value = [];
     let list = [];
     for (let i = 0; i < listNum.value; i++) {
@@ -146,14 +183,13 @@
         }
       });
     }
-    removeInterObserver();
-    createInterObserver(loadMoreRef.value, loadMore);
+    refreshObserver();
   };
 
   const debounceReArrange = useDebounceFn(() => {
-    console.log("reArrange start");
+    // console.log("reArrange start");
     reArrange();
-    console.log("reArrange end");
+    // console.log("reArrange end");
   }, 350);
 
   watch(
