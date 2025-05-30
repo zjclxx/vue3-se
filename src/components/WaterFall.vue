@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-  import { nextTick, onMounted, ref, watch } from "vue";
+  import { h, nextTick, onMounted, ref, watch } from "vue";
   import { useElementSize, useDebounceFn } from "@vueuse/core";
   import { message as AMessage, Modal as AModal } from "ant-design-vue";
   import waterfallImages from "@/utils/waterfallImg.js"; //可以进入该文件修改目录中的图片或者格式
@@ -69,13 +69,41 @@
     // if(!sessionDesc) {
     console.log("cache", cache);
     AModal.info({
-      title: "首次加载说明",
-      content:
-        "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。",
+      title: () => {
+        return h(
+          "p",
+          {
+            style: {
+              fontSize: "2.5rem",
+            },
+          },
+          "首次加载说明"
+        );
+      },
+      content: () => {
+        return h(
+          "p",
+          {
+            style: {
+              fontSize: "2rem",
+            },
+          },
+          "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。"
+        );
+      },
       okText: "知道了",
       keyboard: false,
+      width: "30%",
+      icon: null,
       onOk: () => {
         // cache.session.setJSON(FIRST_DESC, 'first-loaded');
+      },
+      okButtonProps: {
+        style: {
+          fontSize: "1.5rem",
+          // marginBottom: "1.5rem",
+          height: "auto",
+        },
       },
     });
     // }
@@ -157,8 +185,6 @@
     if (listNum.value === 0) {
       isNoMore.value = true;
       return;
-    } else {
-      isNoMore.value = false;
     }
     columnInfoList.value = [];
     let list = [];
@@ -183,7 +209,11 @@
         }
       });
     }
-    refreshObserver();
+    if (isNoMore.value) {
+      removeInterObserver();
+    } else {
+      refreshObserver();
+    }
   };
 
   const debounceReArrange = useDebounceFn(() => {
