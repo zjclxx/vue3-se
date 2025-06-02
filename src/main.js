@@ -8,6 +8,7 @@ import "ant-design-vue/es/modal/style/css";
 
 import "virtual:svg-icons-register";
 import SvgIcon from "@/components/Svg.vue";
+import router from "./router";
 
 import mitt from "mitt";
 
@@ -21,6 +22,7 @@ const app = createApp(App);
 app.config.globalProperties.$bus = mitt();
 
 app.component("SvgIcon", SvgIcon);
+app.use(router);
 
 app.mount("#app");
 

@@ -20,7 +20,8 @@
         "sass-loader": "^16.0.5",
         "simple-mind-map": "^0.14.0-fix.1",
         "vite-plugin-compression": "^0.5.1",
-        "vue": "^3.3.4"
+        "vue": "^3.3.4",
+        "vue-router": "4"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^4.6.2",

@@ -1,0 +1,38 @@
+import { createWebHistory, createRouter } from "vue-router";
+
+const routes = [
+  {
+    path: "/",
+    rediect: "/guide",
+    component: () => import("@/views/guide/index.vue"),
+    name: "Guide",
+  },
+  {
+    path: "/waterFall",
+    component: () => import("@/views/waterFall/index.vue"),
+    name: "WaterFall",
+  },
+  {
+    path: "/honeycomb",
+    component: () => import("@/views/honeycomb/index.vue"),
+    name: "Honeycomb",
+  },
+  // {
+  //   path: "/404",
+  //   component: () => import("@/views/404"),
+  //   hidden: true,
+  // },
+  {
+    path: "/:pathMatch(.*)", // 注意这里的路径写法
+    name: "catchAll", // 必须命名为 'catchAll'
+    rediect: "/404",
+    component: () => import("@/views/404.vue"),
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;
