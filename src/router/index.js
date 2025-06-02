@@ -17,6 +17,11 @@ const routes = [
     component: () => import("@/views/honeycomb/index.vue"),
     name: "Honeycomb",
   },
+  {
+    path: "/parallax",
+    component: () => import("@/views/parallax/index.vue"),
+    name: "Parallax",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

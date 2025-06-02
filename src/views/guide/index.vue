@@ -56,7 +56,7 @@
       justify-content: center;
       overflow: hidden auto;
       .list-container {
-        width: 75%;
+        width: 80%;
         height: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, 300px);
