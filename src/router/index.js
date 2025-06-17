@@ -22,6 +22,11 @@ const routes = [
     component: () => import("@/views/parallax/index.vue"),
     name: "Parallax",
   },
+  {
+    path: "/surroundingBall",
+    component: () => import("@/views/surroundingBall/index.vue"),
+    name: "SurroundingBall",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

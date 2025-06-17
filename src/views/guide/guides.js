@@ -14,6 +14,11 @@ const guides = [
     title: "视差滚动",
     path: "/parallax",
   },
+  {
+    id: 4,
+    title: "环绕球",
+    path: "/surroundingBall",
+  },
 ];
 
 export default guides;
