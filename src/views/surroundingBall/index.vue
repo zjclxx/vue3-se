@@ -4,40 +4,51 @@
     class="container"
     @mousedown="startDrag"
     @mouseup="stopDrag">
-    <svg width="1400" height="800">
-      <ellipse
-        ref="ellipse"
-        :cx="cx"
-        :cy="cy"
-        :rx="rx"
-        :ry="ry"
-        stroke="gray"
-        fill="none" />
-      <circle
-        v-for="(dot, index) in dots"
-        :key="index"
-        :ref="(el) => (dotRefs[index] = el)"
-        :r="dot.r"
-        fill="skyblue"></circle>
-      <text
-        v-for="(dot, index) in dots"
-        :key="index"
-        :ref="(el) => (centerVal[index] = el)"
-        text-anchor="middle"
-        fill="white">
-        <tspan font-size="18">320</tspan>
-        <tspan font-size="12">分</tspan>
-      </text>
-      <text
-        v-for="(dot, index) in dots"
-        :key="index"
-        :ref="(el) => (bottomCity[index] = el)"
-        text-anchor="middle"
-        font-size="16"
-        fill="black">
-        上海市
-      </text>
-    </svg>
+    <div class="svg-container">
+      <svg width="1400" height="800">
+        <linearGradient
+          id="Gradient1"
+          x1="0"
+          y1="0"
+          x2="1 + Math.sqrt(2)"
+          y2="1">
+          <stop offset="0%" stop-color="rgba(160, 166, 255, 1)" />
+          <stop offset="100%" stop-color="rgba(71, 17, 255, 1)" />
+        </linearGradient>
+        <ellipse
+          ref="ellipse"
+          :cx="cx"
+          :cy="cy"
+          :rx="rx"
+          :ry="ry"
+          stroke="gray"
+          fill="none" />
+        <circle
+          v-for="(dot, index) in dots"
+          :key="index"
+          :ref="(el) => (dotRefs[index] = el)"
+          :r="dot.r"
+          fill="url(#Gradient1)"></circle>
+        <text
+          v-for="(_, index) in dots"
+          :key="index"
+          :ref="(el) => (centerVal[index] = el)"
+          text-anchor="middle"
+          fill="white">
+          <tspan font-size="18">320</tspan>
+          <tspan font-size="12">分</tspan>
+        </text>
+        <text
+          v-for="(_, index) in dots"
+          :key="index"
+          :ref="(el) => (bottomCity[index] = el)"
+          text-anchor="middle"
+          font-size="16"
+          fill="black">
+          上海市
+        </text>
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -80,7 +91,7 @@
     };
   };
 
-  const getCircleradius = (x, y) => {};
+  // const getCircleradius = (x, y) => {};
   const updateDotPositions = () => {
     dots.value.forEach((_, index) => {
       const angle = anglePositions[index];
@@ -127,9 +138,15 @@
   });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .container {
-    user-select: none;
-    cursor: grab;
+    // display: flex;
+    margin: auto;
+    .svg-container {
+      width: 1400px;
+      height: 800px;
+      user-select: none;
+      cursor: grab;
+    }
   }
 </style>
