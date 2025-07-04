@@ -19,6 +19,11 @@ const guides = [
     title: "环绕球",
     path: "/surroundingBall",
   },
+  {
+    id: 5,
+    title: "页面气泡效果",
+    path: "/bubblePage",
+  },
 ];
 
 export default guides;

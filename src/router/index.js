@@ -27,6 +27,11 @@ const routes = [
     component: () => import("@/views/surroundingBall/index.vue"),
     name: "SurroundingBall",
   },
+  {
+    path: "/bubblePage",
+    component: () => import("@/views/bubblePage/index.vue"),
+    name: "BubblePage",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),
