@@ -50,7 +50,8 @@
     }
     .nav-container {
       width: 100%;
-      margin-top: 24px;
+      padding-top: 24px;
+      // margin-top: 24px;
       flex: 1;
       display: flex;
       justify-content: center;

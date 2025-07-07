@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-  import WaterFall from "@/components/WaterFall.vue";
+  import WaterFall from "./WaterFall.vue";
 </script>
 
 <style lang="scss" scoped>

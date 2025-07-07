@@ -77,7 +77,7 @@
     }))
   );
 
-  const paths = [];
+  // const paths = [];
   const angleOffset = (2 * Math.PI) / DOT_COUNT;
 
   let anglePositions = [];
