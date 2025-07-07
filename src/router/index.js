@@ -32,6 +32,11 @@ const routes = [
     component: () => import("@/views/bubblePage/index.vue"),
     name: "BubblePage",
   },
+  {
+    path: "/circularArrangement",
+    component: () => import("@/views/circularArrangement/index.vue"),
+    name: "CircularArrangement",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

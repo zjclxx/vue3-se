@@ -24,6 +24,11 @@ const guides = [
     title: "页面气泡效果",
     path: "/bubblePage",
   },
+  {
+    id: 5,
+    title: "环形排列",
+    path: "/circularArrangement",
+  },
 ];
 
 export default guides;
