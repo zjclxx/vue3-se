@@ -31,7 +31,7 @@
     createInterObserver,
     removeInterObserver,
   } from "@/utils/IntersectionObserver.js";
-  import { buildUUID, findMindex } from "../utils";
+  import { buildUUID, findMindex } from "@/utils/index.js";
   import cache from "@/plugins/cache.js";
 
   const wfCRef = ref(null);
