@@ -21,7 +21,7 @@ const guides = [
   },
   {
     id: 5,
-    title: "页面气泡效果",
+    title: "底部气泡",
     path: "/bubblePage",
   },
   {

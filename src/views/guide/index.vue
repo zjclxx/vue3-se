@@ -43,7 +43,8 @@
       justify-content: center;
       align-items: center;
       font-size: 48px;
-      background-color: #a85e85;
+      background-color: #e7aece;
+      letter-spacing: 8px;
       color: #2b0f00;
       font-weight: 600;
       flex-shrink: 0;
@@ -57,7 +58,7 @@
       justify-content: center;
       overflow: hidden auto;
       .list-container {
-        width: 80%;
+        width: 85%;
         height: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, 300px);
@@ -75,8 +76,9 @@
           font-size: 36px;
           cursor: pointer;
           border-radius: 8px;
-          box-shadow: 7px 7px 10px 5px rgba(172, 237, 234, 0.52);
+          box-shadow: 5px 5px 10px 2px rgba(208, 230, 233, 0.52);
           &:hover {
+            box-shadow: 7px 7px 10px 5px rgba(172, 237, 234, 0.52);
             background-color: #e3d8ff;
             color: #3e1f8e;
             border-color: #8b6eff;
