@@ -37,6 +37,11 @@ const routes = [
     component: () => import("@/views/circularArrangement/index.vue"),
     name: "CircularArrangement",
   },
+  {
+    path: "/animationText",
+    component: () => import("@/views/animationText/index.vue"),
+    name: "AnimationText",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

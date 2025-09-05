@@ -13,7 +13,7 @@
         "@vueuse/core": "^13.2.0",
         "ant-design-vue": "3.2.20",
         "axios": "^1.9.0",
-        "echarts": "^5.6.0",
+        "echarts": "^6.0.0",
         "fast-glob": "^3.3.3",
         "mitt": "^3.0.1",
         "sass": "^1.88.0",

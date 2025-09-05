@@ -78,7 +78,7 @@ export default defineConfig({
     //     // secure: false
     //   },
     // },
-    // host: "0.0.0.0",
+    host: "0.0.0.0",
     open: true, // 项目启动后，自动打开
     warmup: {
       //预热加载

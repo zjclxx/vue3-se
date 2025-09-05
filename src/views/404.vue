@@ -1,7 +1,7 @@
 <template>
   <div class="notFound-container">
     <div>
-      <span>404</span>
+      <span>页面不存在</span>
     </div>
     <RouterLink to="/">点我回首页</RouterLink>
   </div>

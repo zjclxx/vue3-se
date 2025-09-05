@@ -74,6 +74,7 @@
           align-items: center;
           font-size: 36px;
           cursor: pointer;
+          border-radius: 8px;
           box-shadow: 7px 7px 10px 5px rgba(172, 237, 234, 0.52);
           &:hover {
             background-color: #e3d8ff;

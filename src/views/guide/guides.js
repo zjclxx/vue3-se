@@ -29,6 +29,11 @@ const guides = [
     title: "环形排列",
     path: "/circularArrangement",
   },
+  {
+    id: 6,
+    title: "描边动画",
+    path: "/animationText",
+  },
 ];
 
 export default guides;
