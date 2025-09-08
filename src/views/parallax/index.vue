@@ -17,15 +17,16 @@
 
 <script setup>
   import { onMounted } from "vue";
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   onMounted(() => {
     animationAction();
-    console.log("1", ScrollTrigger);
-    console.log("2", gsap);
   });
   const animationAction = () => {
     const sections = document.querySelectorAll("section");
     gsap.registerPlugin(ScrollTrigger);
+
     sections.forEach((item) => {
       gsap.fromTo(
         item,
