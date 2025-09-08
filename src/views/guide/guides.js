@@ -39,6 +39,11 @@ const guides = [
     title: "粒子时钟",
     path: "/sandClock",
   },
+  {
+    id: 8,
+    title: "罗盘时钟",
+    path: "/compassClock",
+  },
 ];
 
 export default guides;

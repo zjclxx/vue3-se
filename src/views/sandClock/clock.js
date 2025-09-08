@@ -1,13 +1,8 @@
 const Particle_MIN_RADIUS = 4;
 const Particle_MAX_RADIUS = 7;
 
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d", {
-  willReadFrequently: true,
-});
-canvas.width = window.innerWidth * devicePixelRatio;
-canvas.height = window.innerHeight * devicePixelRatio;
-
+let ctx = null;
+let canvas = null;
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max + 1 - min) + min);
 }
@@ -140,4 +135,13 @@ export function stopRAF() {
   cancelAnimationFrame(drawRAFId);
 }
 
-draw();
+export function init() {
+  canvas = document.querySelector("canvas");
+  ctx = canvas.getContext("2d", {
+    willReadFrequently: true,
+  });
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+  draw();
+}
+// draw();

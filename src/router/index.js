@@ -47,6 +47,11 @@ const routes = [
     component: () => import("@/views/sandClock/index.vue"),
     name: "SandClock",
   },
+  {
+    path: "/compassClock",
+    component: () => import("@/views/compassClock/index.vue"),
+    name: "CompassClock",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),
