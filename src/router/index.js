@@ -42,6 +42,11 @@ const routes = [
     component: () => import("@/views/animationText/index.vue"),
     name: "AnimationText",
   },
+  {
+    path: "/sandClock",
+    component: () => import("@/views/sandClock/index.vue"),
+    name: "SandClock",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

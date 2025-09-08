@@ -62,7 +62,7 @@
         height: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, 300px);
-        column-gap: 160px;
+        column-gap: 100px;
         row-gap: 36px;
         justify-content: space-between;
         align-content: start;

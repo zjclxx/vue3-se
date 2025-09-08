@@ -34,6 +34,11 @@ const guides = [
     title: "描边动画",
     path: "/animationText",
   },
+  {
+    id: 7,
+    title: "粒子时钟",
+    path: "/sandClock",
+  },
 ];
 
 export default guides;
