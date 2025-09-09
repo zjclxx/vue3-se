@@ -12,6 +12,7 @@
     <section>
       <span>不买也没关系，那么</span>
     </section>
+    <Back></Back>
   </div>
 </template>
 
@@ -19,6 +20,7 @@
   import { onMounted } from "vue";
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import Back from "@/components/back/index.vue";
 
   onMounted(() => {
     animationAction();

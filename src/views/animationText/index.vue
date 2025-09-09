@@ -1,10 +1,12 @@
 <template>
   <div class="animationText-container">
     <div class="chart-container" ref="chartRef"></div>
+    <Back theme="light"></Back>
   </div>
 </template>
 
 <script setup>
+  import Back from "@/components/back/index.vue";
   import * as echarts from "echarts";
   import { ref, onMounted, onUnmounted, nextTick } from "vue";
   const chartRef = ref(null);

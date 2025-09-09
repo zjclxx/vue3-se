@@ -97,4 +97,14 @@ export default defineConfig({
       },
     },
   },
+  css: {
+    preprocessorOptions: {
+      // 如果'modern-compiler'不管用，可换成"modern"
+      scss: {
+        api: "modern-compiler", // or "modern"
+        silenceDeprecations: ["legacy-js-api"], // 重点：解决sass警告问题
+        javascriptEnabled: true,
+      },
+    },
+  },
 });

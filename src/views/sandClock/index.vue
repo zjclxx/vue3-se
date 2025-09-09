@@ -1,11 +1,13 @@
 <template>
   <div>
     <canvas></canvas>
+    <Back theme="light"></Back>
   </div>
 </template>
 
 <script setup>
   import { onMounted, onBeforeUnmount, ref } from "vue";
+  import Back from "@/components/back/index.vue";
   onMounted(() => {
     init();
   });

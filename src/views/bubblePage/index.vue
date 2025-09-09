@@ -7,10 +7,12 @@
     <div class="canvas-container">
       <canvas ref="bubbleCanvas" />
     </div>
+    <Back></Back>
   </div>
 </template>
 
 <script setup>
+  import Back from "@/components/back/index.vue";
   import { onMounted, ref, onBeforeUnmount } from "vue";
   import pageBubble from ".";
 

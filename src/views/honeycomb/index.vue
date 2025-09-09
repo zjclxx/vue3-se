@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-for="(_, lineIndex) in 5" :key="lineIndex" class="line">
+    <div v-for="(_, lineIndex) in 7" :key="lineIndex" class="line">
       <div
         v-for="(_, IIndex) in 10"
         :key="IIndex"
@@ -8,10 +8,12 @@
         @mouseenter="handleMouseEnter(lineIndex, IIndex)"
         @mouseleave="handleMoveLeave(lineIndex, IIndex)"></div>
     </div>
+    <Back></Back>
   </div>
 </template>
 
 <script setup>
+  import Back from "@/components/back/index.vue";
   const handleMouseEnter = (line, index) => {
     const scaleVal = "scale(0.7)";
     honeycombScale(scaleVal, line, index);
@@ -85,22 +87,26 @@
 
 <style lang="scss" scoped>
   $n: 9;
-  $size: 100vw / $n;
+  // $size: 100vw / $n;
+  $size: calc(100vw / $n);
 
   .container {
     width: 100%;
     height: 100%;
-    overflow: hidden auto;
+    overflow: hidden;
+    // overflow: hidden auto;
   }
 
   .line {
     display: flex;
     &:nth-child(even) {
-      transform: translateX(-$size / 2);
+      // transform: translateX(-$size / 2);
+      transform: translateX(calc(-1 * $size / 2));
     }
 
     &:nth-child(n + 2) {
-      margin-top: -$size / 6;
+      margin-top: calc(-1 * $size / 6);
+      // margin-top: -$size / 6;
     }
   }
 

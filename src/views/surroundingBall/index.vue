@@ -49,10 +49,12 @@
         </text>
       </svg>
     </div>
+    <Back></Back>
   </div>
 </template>
 
 <script setup>
+  import Back from "@/components/back/index.vue";
   import { onMounted, ref } from "vue";
   import { gsap } from "gsap";
   import { MotionPathPlugin } from "gsap/MotionPathPlugin";

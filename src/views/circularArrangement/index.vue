@@ -11,12 +11,14 @@
         </div>
       </div>
     </div>
+    <Back></Back>
   </div>
 </template>
 
 <script setup>
+  import Back from "@/components/back/index.vue";
   import { useDebounceFn } from "@vueuse/core";
-  import { onMounted, ref, onBeforeUnmount, onUnmounted } from "vue";
+  import { onMounted, ref, onUnmounted } from "vue";
   import { formatNumberToChinese } from "@/utils";
 
   const divNum = ref(10); //外围影响的个数  可直接更改
