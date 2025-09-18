@@ -85,10 +85,37 @@ export default defineConfig({
       clientFiles: ["./index.html", "./src/{views,components}/*"],
     },
   },
+  // output.entryFileNames
+  // 用途：定义入口chunk（即你的主JavaScript文件，如main.js或index.js等）的输出文件名和路径。
+  // 解释：这里[name]会被替换为入口chunk的名称，[hash]是一个根据内容生成的哈希值，确保每次内容变化时文件名也会改变，便于浏览器缓存管理。所有入口chunk将被放置在assets/js/目录下。
+  // output.chunkFileNames
+  // 用途：定义由代码拆分（code splitting）产生的非入口chunk（例如动态导入的模块）的输出文件名和路径。
+  // 解释：与entryFileNames类似，但应用于代码拆分生成的文件。这样设置可以保持与入口文件一致的命名规则，同样带有哈希值，存储位置也是assets/js/。
+  // output.assetFileNames
+  // 用途：定义静态资源（如CSS、图片等）的输出文件名和路径。
+  // 配置函数：这里使用了一个函数来动态决定不同类型的资源输出到哪里。
+  // 对于.css文件，输出到assets/css/[name]-[hash].css。
+  // 对于常见的图片格式（.png, .jpg, .jpeg, .gif, .svg, .webp），输出到assets/img/[name]-[hash].[ext]，其中[ext]保留原始文件扩展名。
+  // 其他未匹配到的静态资源则输出到assets/[name]-[hash].[ext]
   build: {
     chunkSizeWarningLimit: 4096,
     rollupOptions: {
       output: {
+        // 人口文件输出配置
+        entryFileNames: "assets/js/[name].[hash].js",
+        // 代码分割后的文件输出配置
+        chunkFileNames: "assets/js/[name].[hash].js",
+        // 静态资源输出配置
+        assetFileNames: (assetInfo) => {
+          let extType = assetInfo.name.split(".").at(1);
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            return `assets/img/[name].[hash].[ext]`;
+          } else if (/css/i.test(extType)) {
+            return `assets/css/[name].[hash].[ext]`;
+          } else {
+            return `assets/[name].[hash].[ext]`;
+          }
+        },
         manualChunks: {
           vue: ["vue"],
           antd: ["ant-design-vue", "@ant-design/icons-vue"],
