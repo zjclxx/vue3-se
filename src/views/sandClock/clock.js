@@ -1,4 +1,4 @@
-const Particle_MIN_RADIUS = 4;
+const Particle_MIN_RADIUS = 5;
 const Particle_MAX_RADIUS = 7;
 
 let ctx = null;
@@ -7,7 +7,7 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max + 1 - min) + min);
 }
 
-const colorArr = ["#585858ff", "#6a6a6bff", "#494949ff", "#606263ff"];
+const colorArr = ["#585858c7", "#6a6a6b93", "#49494996", "#60626373"];
 let moveRAFId = null;
 let drawRAFId = null;
 
@@ -102,7 +102,7 @@ function getPoints() {
   const points = [];
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const data = imageData.data;
-  const gap = 6;
+  const gap = 8;
   for (let i = 0; i < canvas.width; i += gap) {
     for (let j = 0; j < canvas.width; j += gap) {
       const index = (i + j * canvas.width) * 4;

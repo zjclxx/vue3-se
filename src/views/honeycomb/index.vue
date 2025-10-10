@@ -108,6 +108,9 @@
       margin-top: calc(-1 * $size / 6);
       // margin-top: -$size / 6;
     }
+    &:nth-child(1) {
+      margin-top: calc(-1 * $size / 2);
+    }
   }
 
   .item {

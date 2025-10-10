@@ -10,7 +10,9 @@
           :key="img.uuid"
           :src="img.url"
           alt=""
-          :width="columnWidth" />
+          :width="columnWidth"
+          class="waterfall-img-item"
+          @load="handleImgLoad" />
       </div>
     </div>
     <div v-if="isNoMore" class="no-more">
@@ -53,7 +55,14 @@
 
   const isNoMore = ref(false); //是否还有更多的图片可以获取,并且移除该dom取消observer监听
 
-  const FIRST_DESC = "first_desc";
+  // const FIRST_DESC = "first_desc";
+  const handleImgLoad = (el) => {
+    // console.log("el", el.target);
+    if (el.target) {
+      const oldClass = el.target.getAttribute("class");
+      el.target.setAttribute("class", oldClass + " waterfall-animation-img");
+    }
+  };
 
   onMounted(() => {
     firstLoadDescription();
@@ -285,6 +294,25 @@
           margin-top: 14px;
           &:first-child {
             margin-top: 0;
+          }
+        }
+        .waterfall-img-item {
+          opacity: 0;
+          &.waterfall-animation-img {
+            animation-name: WaterfallImgShow;
+            animation-duration: 0.6s;
+            animation-timing-function: ease-in-out;
+            animation-delay: 0.2s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+          }
+          @keyframes WaterfallImgShow {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
           }
         }
       }
