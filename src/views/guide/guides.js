@@ -46,8 +46,8 @@ const guides = [
   },
   {
     id: 9,
-    title: "心形粒子",
-    path: "/heartSand",
+    title: "透视文字",
+    path: "/imgThroughText",
   },
 ];
 

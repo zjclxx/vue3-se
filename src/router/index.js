@@ -53,9 +53,9 @@ const routes = [
     name: "CompassClock",
   },
   {
-    path: "/heartSand",
-    component: () => import("@/views/heartSand/index.vue"),
-    name: "HeartSand",
+    path: "/imgThroughText",
+    component: () => import("@/views/imgThroughText/index.vue"),
+    name: "ImgThroughText",
   },
   // {
   //   path: "/404",
