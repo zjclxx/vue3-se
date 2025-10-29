@@ -49,6 +49,11 @@ const guides = [
     title: "透视文字",
     path: "/imgThroughText",
   },
+  {
+    id: 10,
+    title: "一些边框效果",
+    path: "/border",
+  },
 ];
 
 export default guides;

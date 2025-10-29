@@ -57,6 +57,11 @@ const routes = [
     component: () => import("@/views/imgThroughText/index.vue"),
     name: "ImgThroughText",
   },
+  {
+    path: "/border",
+    component: () => import("@/views/border/index.vue"),
+    name: "Border",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),
