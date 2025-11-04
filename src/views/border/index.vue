@@ -9,6 +9,11 @@
       <div class="rotate-border">
         <span>旋转边框效果</span>
       </div>
+      <div class="cone-border">
+        <div class="self-box">
+          <span>发光渐变边框</span>
+        </div>
+      </div>
     </div>
     <Back theme="light"></Back>
   </div>
@@ -20,13 +25,17 @@
 
 <style lang="scss" scoped>
   $zIndex: 10;
+  // $sizeHeight: 300px;
+  $aspectRatio: 1.5;
   .container {
+    position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
     // overflow: hidden auto;
     background: #000;
     padding: 16px 0;
+    z-index: -1;
 
     .border-container {
       margin: auto;
@@ -35,14 +44,16 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       column-gap: 100px;
-      row-gap: 36px;
+      row-gap: 50px;
       justify-content: space-between;
       align-content: start;
+      position: relative;
 
       .repeat-border {
         // width: 100%;
         position: relative;
-        height: 400px;
+        // height: $sizeHeight;
+        aspect-ratio: $aspectRatio;
         background: repeating-linear-gradient(
             -45deg,
             #e8544d,
@@ -69,7 +80,7 @@
           align-items: center;
           justify-content: center;
           text-align: center;
-          font-size: 3vw;
+          font-size: 2vw;
         }
         &:hover {
           box-shadow: 0 3px 10px 5px rgba(8, 255, 119, 0.8);
@@ -81,7 +92,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 400px;
+        // height: $sizeHeight;
+        aspect-ratio: $aspectRatio;
         position: relative;
         // outline: 4px solid #fff;
         overflow: hidden;
@@ -124,6 +136,51 @@
           to {
             transform: rotate(360deg);
           }
+        }
+      }
+
+      .cone-border {
+        // height: $sizeHeight;
+        aspect-ratio: $aspectRatio;
+        // overflow: hidden;
+        position: relative;
+        padding: 4px;
+        .self-box {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #302e2e;
+          color: #fff;
+          font-size: 2vw;
+          border-radius: 10px;
+        }
+
+        &::after,
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          // left: 0;
+          // top: 0;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          background-image: conic-gradient(
+            #ff4545,
+            #00ff99,
+            #006aff,
+            #ff0095,
+            #ff4545
+          );
+          z-index: -1;
+          border-radius: 10px;
+        }
+
+        &::before {
+          filter: blur(1.2rem);
         }
       }
     }
