@@ -7,11 +7,18 @@
         </div>
       </div>
       <div class="rotate-border">
-        <span>旋转边框效果</span>
+        <span>流动边框</span>
+        <span>不支持背景色更改</span>
       </div>
       <div class="cone-border">
         <div class="self-box">
           <span>发光渐变边框</span>
+        </div>
+      </div>
+      <div class="flowing-light-border">
+        <div class="self-box">
+          <span>另一个流动边框</span>
+          <span>支持背景色更改</span>
         </div>
       </div>
     </div>
@@ -21,9 +28,32 @@
 
 <script setup>
   import Back from "@/components/back/index.vue";
+  // import { ref, onMounted, onUnmounted } from "vue";
+
+  // const rotateDeg = ref(90);
+
+  // const timer = ref(null);
+
+  // onMounted(() => {
+  //   timer.value = setInterval(() => {
+  //     rotateDeg.value += 0.7;
+  //   }, 10);
+  // });
+
+  // onUnmounted(() => {
+  //   if (timer.value) {
+  //     clearInterval(timer.value);
+  //     timer.value = null;
+  //   }
+  // });
 </script>
 
 <style lang="scss" scoped>
+  @property --flowing-light-angle {
+    syntax: "<angle>";
+    initial-value: 180deg;
+    inherits: false;
+  }
   $zIndex: 10;
   // $sizeHeight: 300px;
   $aspectRatio: 1.5;
@@ -35,7 +65,7 @@
     // overflow: hidden auto;
     background: #000;
     padding: 16px 0;
-    z-index: -1;
+    z-index: 1; //此处必须写1 不写和-1都会有bug
 
     .border-container {
       margin: auto;
@@ -66,6 +96,7 @@
             #fff 40px
           ) -20px -20px/200% 200%;
         transition: 0.3s;
+        z-index: 9999;
         .inner-border-container {
           padding: 0 50px;
           position: absolute;
@@ -90,6 +121,7 @@
 
       .rotate-border {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         // height: $sizeHeight;
@@ -181,6 +213,63 @@
 
         &::before {
           filter: blur(1.2rem);
+        }
+      }
+
+      .flowing-light-border {
+        aspect-ratio: $aspectRatio;
+        position: relative;
+        padding: 4px;
+        .self-box {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background: #3f3e3f;
+          color: #bbe9ca;
+          font-size: 2vw;
+          border-radius: 10px;
+        }
+
+        &::after,
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          // background-image: conic-gradient(
+          //   from calc(v-bind(rotateDeg) * 1deg),
+          //   transparent 80%,
+          //   rgb(0, 132, 255)
+          // );
+          background-image: conic-gradient(
+            from var(--flowing-light-angle),
+            transparent 80%,
+            rgb(0, 132, 255)
+          );
+          z-index: -1;
+          border-radius: 10px;
+          animation: spinFlowingLight 5s linear infinite;
+        }
+
+        &::before {
+          filter: blur(1.2rem);
+        }
+        @keyframes spinFlowingLight {
+          0% {
+            --flowing-light-angle: -180deg;
+          }
+          50% {
+            --flowing-light-angle: 0deg;
+          }
+          100% {
+            --flowing-light-angle: 180deg;
+          }
         }
       }
     }
