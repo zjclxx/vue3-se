@@ -62,6 +62,11 @@ const routes = [
     component: () => import("@/views/border/index.vue"),
     name: "Border",
   },
+  {
+    path: "/mindMap",
+    component: () => import("@/views/mindMap/index.vue"),
+    name: "MindMap",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

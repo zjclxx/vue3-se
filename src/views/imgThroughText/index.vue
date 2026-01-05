@@ -24,7 +24,7 @@
   const maxiSize = 350;
   const normalSize = ref(200);
   const handleMousewheel = (e) => {
-    console.log(e);
+    // console.log(e);
     if (e.deltaY > 0) {
       normalSize.value = Math.max(normalSize.value - 10, miniSize);
     } else {
@@ -51,7 +51,7 @@
       font-weight: 700;
       color: transparent;
       white-space: nowrap;
-      background: url("../../assets//images//throughText/pvz.jpg") no-repeat
+      background: url("../../assets/images/throughText/pvz.jpg") no-repeat
         center/cover;
       background-clip: text;
       font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;

@@ -41,7 +41,7 @@
           ease: "none",
           scrollTrigger: {
             trigger: item,
-            // start: "top top",
+            // start: "top top",W
             // end: "bottom top",
             scrub: true,
           },
@@ -78,9 +78,9 @@
         background-image: url("../../assets/images/waterfall/waterfall23.jpg");
       }
       span {
-        font-size: 60px;
+        font-size: 4vw;
         font-weight: 600;
-        color: #493bff;
+        color: #1200ff;
       }
     }
   }

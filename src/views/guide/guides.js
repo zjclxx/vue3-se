@@ -54,6 +54,11 @@ const guides = [
     title: "一些边框效果",
     path: "/border",
   },
+  {
+    id: 11,
+    title: "思维导图",
+    path: "/mindMap",
+  },
 ];
 
 export default guides;
