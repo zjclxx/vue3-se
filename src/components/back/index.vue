@@ -39,6 +39,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
     &.routeBack-dark {
       background-color: rgba(0, 0, 0, 0.3);
       color: rgba(255, 255, 255, 1);
