@@ -383,17 +383,24 @@ export function init() {
 
 // 销毁监听
 export function destroy() {
+  finishDx = 0;
+  finishDy = 0;
+  scale = 1;
   if (result) {
     result.removeEventListener("mousedown", handleObserveMouseDown);
     result.removeEventListener("mousemove", handleObserveMouseMove);
     result.removeEventListener("mouseleave", handleObserveMouseLeave);
     result.removeEventListener("mouseup", handleObserveMouseUp);
     result.removeEventListener("wheel", handleObserveMouseWhell);
+    result = null;
   }
 }
 
 // 回到原位
 export function returnOrigin() {
+  finishDx = 0;
+  finishDy = 0;
+  scale = 1;
   if (result) {
     result.style.transform = `translate(calc(-50% + 0px),  0px) scale(1)`;
   }
