@@ -1,5 +1,3 @@
-let isKeyPressed = false;
-let startX, startY, dx, dy;
 const textData = {
   text: "人工智能",
   children: [
@@ -317,11 +315,86 @@ function createHorizontalSVG(textData) {
   return svg;
 }
 
+let isKeyPressed = false;
+let startX, startY, dx, dy;
+let finishDx = 0;
+let finishDy = 0;
+let scale = 1;
+let result;
+function handleObserveMouseDown(e) {
+  // console.log("鼠标按下");
+  isKeyPressed = true;
+  startX = e.clientX; // 记录鼠标按下时的X坐标
+  startY = e.clientY; // 记录鼠标按下时的Y坐标
+}
+function handleObserveMouseMove(e) {
+  if (isKeyPressed) {
+    // console.log("鼠标移动svg", e);
+    dx = e.clientX - startX; // 计算水平方向上的移动距离
+    dy = e.clientY - startY; // 计算垂直方向上的移动距离
+    if (result) {
+      result.style.transform = `translate(calc(-50% + ${finishDx + dx}px),  ${
+        finishDy + dy
+      }px) scale(${scale})`;
+    }
+  }
+}
+function handleObserveMouseLeave(e) {
+  // console.log("移出svg");
+  isKeyPressed = false;
+}
+function handleObserveMouseUp(e) {
+  // console.log("鼠标抬起svg");
+  isKeyPressed = false;
+  finishDx += e.clientX - startX;
+  finishDy += e.clientY - startY;
+}
+function handleObserveMouseWhell(e) {
+  // console.log("鼠标滚轮svg", e);
+  if (e.deltaY < 0) {
+    if (scale >= 3) return;
+    scale += 0.2;
+  } else {
+    if (scale <= 0.6) return;
+    scale -= 0.2;
+  }
+  if (result) {
+    result.style.transform = `translate(calc(-50% + ${finishDx}px),  ${finishDy}px) scale(${scale})`;
+  }
+}
+
+// 初始化
 export function init() {
-  const result = createHorizontalSVG(textData);
+  result = createHorizontalSVG(textData);
   if (result) {
     result.setAttribute("class", "mind-map-svg");
     const dom = document.getElementById("svg-container");
     dom.appendChild(result);
+    // result.addEventListener("mouseenter", (e) => {
+    //   console.log("进入svg");
+    // });
+    result.addEventListener("mousedown", handleObserveMouseDown);
+    result.addEventListener("mousemove", handleObserveMouseMove);
+    result.addEventListener("mouseleave", handleObserveMouseLeave);
+    result.addEventListener("mouseup", handleObserveMouseUp);
+    result.addEventListener("wheel", handleObserveMouseWhell);
+  }
+}
+
+// 销毁监听
+export function destroy() {
+  if (result) {
+    result.removeEventListener("mousedown", handleObserveMouseDown);
+    result.removeEventListener("mousemove", handleObserveMouseMove);
+    result.removeEventListener("mouseleave", handleObserveMouseLeave);
+    result.removeEventListener("mouseup", handleObserveMouseUp);
+    result.removeEventListener("wheel", handleObserveMouseWhell);
+  }
+}
+
+// 回到原位
+export function returnOrigin() {
+  if (result) {
+    result.style.transform = `translate(calc(-50% + 0px),  0px) scale(1)`;
   }
 }

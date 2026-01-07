@@ -57,6 +57,7 @@
       display: flex;
       justify-content: center;
       overflow: hidden auto;
+      background: linear-gradient(to bottom, #83d2f2, #36817d);
       .list-container {
         width: 85%;
         height: 100%;
