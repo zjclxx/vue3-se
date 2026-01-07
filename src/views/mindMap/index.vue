@@ -38,6 +38,7 @@
       background-color: #f2fff1;
       cursor: pointer;
       line-height: initial;
+      z-index: 100;
       &:hover {
         background-color: #f9fddb;
         box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
