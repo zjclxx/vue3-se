@@ -415,15 +415,19 @@ function handleObserveMouseMove(e) {
 }
 function handleObserveMouseLeave(e) {
   // console.log("移出svg");
-  isKeyPressed = false;
-  finishDx += e.clientX - startX;
-  finishDy += e.clientY - startY;
+  if (isKeyPressed) {
+    isKeyPressed = false;
+    finishDx += e.clientX - startX;
+    finishDy += e.clientY - startY;
+  }
 }
 function handleObserveMouseUp(e) {
   // console.log("鼠标抬起svg");
-  isKeyPressed = false;
-  finishDx += e.clientX - startX;
-  finishDy += e.clientY - startY;
+  if (isKeyPressed) {
+    isKeyPressed = false;
+    finishDx += e.clientX - startX;
+    finishDy += e.clientY - startY;
+  }
 }
 function handleObserveMouseWhell(e) {
   // console.log("鼠标滚轮svg", e);
