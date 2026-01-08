@@ -1,19 +1,21 @@
 const textData = {
   text: "人工智能",
+
   children: [
     {
       text: "应用层",
-      isActive: true,
+
       children: [
         {
           text: "人工智能行业应用",
+
           children: [
             { text: "你好" },
-            { text: "world" },
+            { text: "world", isActive: true },
             { text: "动态内容" },
-            { text: "Horizontal", isActive: true },
+            { text: "Horizontal" },
             { text: "塞尔达传送" },
-            { text: "人工智能" },
+            { text: "人工智能", isActive: true },
           ],
         },
       ],
@@ -147,8 +149,8 @@ function createHorizontalSVG(textData) {
   upwardDash.setAttribute("stroke-dasharray", "3,3");
   svg.appendChild(upwardDash);
 
-  // 最下面的activeNode
-  let bottomLayerActiveNode;
+  // 最下面的activeNode（可能有两个）
+  let bottomLayerActiveNodeList = [];
 
   elements.forEach((el) => {
     // 添加装饰元素（灰色圆点 + 竖直虚线）
@@ -184,7 +186,7 @@ function createHorizontalSVG(textData) {
     rect.setAttribute("fill", "none");
     if (el.isActive) {
       rect.setAttribute("stroke", activeBorderColor);
-      bottomLayerActiveNode = el;
+      bottomLayerActiveNodeList.push(el);
     } else {
       rect.setAttribute("stroke", defaultBorderColor);
     }
@@ -264,53 +266,125 @@ function createHorizontalSVG(textData) {
   });
 
   // 4.绘制关系线
-  // (一)横长线
-  const aviceNodeCenterX =
-    bottomLayerActiveNode.x + bottomLayerActiveNode.width / 2;
-  const relationLine1 = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "line"
-  );
-  relationLine1.setAttribute("x1", midPointX);
-  relationLine1.setAttribute("y1", bottomLayerActiveNode.y - dashHeight);
-  relationLine1.setAttribute("x2", aviceNodeCenterX);
-  relationLine1.setAttribute("y2", bottomLayerActiveNode.y - dashHeight);
-  relationLine1.setAttribute("stroke", activeBorderColor);
-  relationLine1.setAttribute("stroke-width", "1.4");
-  svg.appendChild(relationLine1);
-
-  // (二)与最下面的active竖线
-  const relationLine2 = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "line"
-  );
-  relationLine2.setAttribute("x1", aviceNodeCenterX);
-  relationLine2.setAttribute("y1", bottomLayerActiveNode.y);
-  relationLine2.setAttribute("x2", aviceNodeCenterX);
-  relationLine2.setAttribute("y2", bottomLayerActiveNode.y - dashHeight);
-  relationLine2.setAttribute("stroke", activeBorderColor);
-  relationLine2.setAttribute("stroke-width", "1.4");
-  svg.appendChild(relationLine2);
-
-  // (三)与最上面的active竖线
-  let totalRectHeight = 0;
-  const formatList = topNodes.filter((_x, i) => i <= topActiveIndex);
-  for (let i = 0; i < formatList.length; i++) {
-    const shortRelationLine = document.createElementNS(
+  if (bottomLayerActiveNodeList.length === 1) {
+    const bottomLayerActiveNode = bottomLayerActiveNodeList[0];
+    // (一)横长线
+    const aviceNodeCenterX =
+      bottomLayerActiveNode.x + bottomLayerActiveNode.width / 2;
+    const relationLine1 = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
     );
-    const item = formatList[i];
-    const y1 =
-      bottomLayerActiveNode.y - dashHeight - i * dashHeight - totalRectHeight;
-    shortRelationLine.setAttribute("x1", midPointX);
-    shortRelationLine.setAttribute("y1", y1);
-    shortRelationLine.setAttribute("x2", midPointX);
-    shortRelationLine.setAttribute("y2", y1 - dashHeight);
-    shortRelationLine.setAttribute("stroke", activeBorderColor);
-    shortRelationLine.setAttribute("stroke-width", "1.4");
-    totalRectHeight += item.height;
-    svg.appendChild(shortRelationLine);
+    relationLine1.setAttribute("x1", midPointX);
+    relationLine1.setAttribute("y1", bottomLayerActiveNode.y - dashHeight);
+    relationLine1.setAttribute("x2", aviceNodeCenterX);
+    relationLine1.setAttribute("y2", bottomLayerActiveNode.y - dashHeight);
+    relationLine1.setAttribute("stroke", activeBorderColor);
+    relationLine1.setAttribute("stroke-width", "1.4");
+    svg.appendChild(relationLine1);
+
+    // (二)与最下面的active竖线
+    const relationLine2 = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+    relationLine2.setAttribute("x1", aviceNodeCenterX);
+    relationLine2.setAttribute("y1", bottomLayerActiveNode.y);
+    relationLine2.setAttribute("x2", aviceNodeCenterX);
+    relationLine2.setAttribute("y2", bottomLayerActiveNode.y - dashHeight);
+    relationLine2.setAttribute("stroke", activeBorderColor);
+    relationLine2.setAttribute("stroke-width", "1.4");
+    svg.appendChild(relationLine2);
+
+    // (三)与最上面的active竖线
+    let totalRectHeight = 0;
+    const formatList = topNodes.filter((_x, i) => i <= topActiveIndex);
+    for (let i = 0; i < formatList.length; i++) {
+      const shortRelationLine = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line"
+      );
+      const item = formatList[i];
+      const y1 =
+        bottomLayerActiveNode.y - dashHeight - i * dashHeight - totalRectHeight;
+      shortRelationLine.setAttribute("x1", midPointX);
+      shortRelationLine.setAttribute("y1", y1);
+      shortRelationLine.setAttribute("x2", midPointX);
+      shortRelationLine.setAttribute("y2", y1 - dashHeight);
+      shortRelationLine.setAttribute("stroke", activeBorderColor);
+      shortRelationLine.setAttribute("stroke-width", "1.4");
+      totalRectHeight += item.height;
+      svg.appendChild(shortRelationLine);
+    }
+  } else if (bottomLayerActiveNodeList.length === 2) {
+    // (一)横长线
+    const relationLine = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+    relationLine.setAttribute(
+      "x1",
+      bottomLayerActiveNodeList[0].x + bottomLayerActiveNodeList[0].width / 2
+    );
+    relationLine.setAttribute(
+      "y1",
+      bottomLayerActiveNodeList[0].y - dashHeight
+    );
+    relationLine.setAttribute(
+      "x2",
+      bottomLayerActiveNodeList[1].x + bottomLayerActiveNodeList[1].width / 2
+    );
+    relationLine.setAttribute(
+      "y2",
+      bottomLayerActiveNodeList[1].y - dashHeight
+    );
+    relationLine.setAttribute("stroke", activeBorderColor);
+    relationLine.setAttribute("stroke-width", "1.4");
+    svg.appendChild(relationLine);
+
+    // (二)与下面的第一个activeNode竖线
+    const relationLine1 = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+    relationLine1.setAttribute(
+      "x1",
+      bottomLayerActiveNodeList[0].x + bottomLayerActiveNodeList[0].width / 2
+    );
+    relationLine1.setAttribute(
+      "y1",
+      bottomLayerActiveNodeList[0].y - dashHeight
+    );
+    relationLine1.setAttribute(
+      "x2",
+      bottomLayerActiveNodeList[0].x + bottomLayerActiveNodeList[0].width / 2
+    );
+    relationLine1.setAttribute("y2", bottomLayerActiveNodeList[0].y);
+    relationLine1.setAttribute("stroke", activeBorderColor);
+    relationLine1.setAttribute("stroke-width", "1.4");
+    svg.appendChild(relationLine1);
+
+    // (三)与下面的第二个activeNode竖线
+    const relationLine2 = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+    relationLine2.setAttribute(
+      "x1",
+      bottomLayerActiveNodeList[1].x + bottomLayerActiveNodeList[1].width / 2
+    );
+    relationLine2.setAttribute("y1", bottomLayerActiveNodeList[1].y);
+    relationLine2.setAttribute(
+      "x2",
+      bottomLayerActiveNodeList[1].x + bottomLayerActiveNodeList[1].width / 2
+    );
+    relationLine2.setAttribute(
+      "y2",
+      bottomLayerActiveNodeList[1].y - dashHeight
+    );
+    relationLine2.setAttribute("stroke", activeBorderColor);
+    relationLine2.setAttribute("stroke-width", "1.4");
+    svg.appendChild(relationLine2);
   }
   return svg;
 }
@@ -342,6 +416,8 @@ function handleObserveMouseMove(e) {
 function handleObserveMouseLeave(e) {
   // console.log("移出svg");
   isKeyPressed = false;
+  finishDx += e.clientX - startX;
+  finishDy += e.clientY - startY;
 }
 function handleObserveMouseUp(e) {
   // console.log("鼠标抬起svg");
