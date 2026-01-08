@@ -57,7 +57,7 @@
   const initRing = () => {
     const avd = 360 / divNum.value; //每一个div对应的角度
     const ahd = (avd * Math.PI) / 180; //每一个div对应的弧度
-    console.log("initRing", ringRef.value);
+    // console.log("initRing", ringRef.value);
     if (ringRef.value && ringRef.value.length) {
       ringRef.value.forEach((item, index) => {
         item.style.left =

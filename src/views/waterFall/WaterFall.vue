@@ -34,7 +34,7 @@
     removeInterObserver,
   } from "@/utils/IntersectionObserver.js";
   import { buildUUID, findMindex } from "@/utils/index.js";
-  import cache from "@/plugins/cache.js";
+  // import cache from "@/plugins/cache.js";
 
   const wfCRef = ref(null);
   const { width: wfCRefWidth } = useElementSize(wfCRef); //动态监听容器宽度，保持响应式
@@ -76,7 +76,7 @@
   const firstLoadDescription = () => {
     // const sessionDesc = cache.session.getJSON(FIRST_DESC);
     // if(!sessionDesc) {
-    console.log("cache", cache);
+    // console.log("cache", cache);
     AModal.info({
       title: () => {
         return h(
@@ -119,7 +119,7 @@
   };
 
   const loadMore = () => {
-    console.log("触发加载");
+    // console.log("触发加载");
     loadImg();
   };
 
@@ -161,7 +161,7 @@
   };
 
   const computeNum = () => {
-    console.log("231", wfCRefWidth.value);
+    // console.log("231", wfCRefWidth.value);
     let computedNum = Math.floor(wfCRefWidth.value / columnWidth);
 
     if (computedNum === 0) {
@@ -207,7 +207,7 @@
     }
     columnInfoList.value = list;
     if (staticImgArr.length) {
-      console.log("bbb");
+      // console.log("bbb");
       staticImgArr.forEach((item) => {
         const minHeightArr = columnInfoList.value.map((item) => item.allHeight);
         const minIndex = findMindex(minHeightArr);
@@ -235,7 +235,7 @@
     () => listNum.value,
     () => {
       //当窗口改变后计算，第一次计算需要等所有图片加载完
-      console.log("listNum中isLoadFinishAllImg", isLoadFinishAllImg.value);
+      // console.log("listNum中isLoadFinishAllImg", isLoadFinishAllImg.value);
       if (isLoadFinishAllImg.value) {
         debounceReArrange();
       }
@@ -246,7 +246,7 @@
     () => isLoadFinishAllImg.value,
     () => {
       if (isLoadFinishAllImg.value) {
-        console.log("isLoadFinishAllImg改变值");
+        // console.log("isLoadFinishAllImg改变值");
         debounceReArrange(); //第一次变化，也就是所有图片加载完
       }
     }
@@ -255,7 +255,7 @@
   watch(
     () => wfCRefWidth.value,
     () => {
-      console.log("111", wfCRefWidth.value);
+      // console.log("111", wfCRefWidth.value);
       if (wfCRefWidth.value > 0) {
         debounceComputeNum();
       }

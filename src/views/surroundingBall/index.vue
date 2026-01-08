@@ -10,7 +10,7 @@
           id="Gradient1"
           x1="0"
           y1="0"
-          x2="1 + Math.sqrt(2)"
+          :x2="1 + Math.sqrt(2)"
           y2="1">
           <stop offset="0%" stop-color="rgba(160, 166, 255, 1)" />
           <stop offset="100%" stop-color="rgba(71, 17, 255, 1)" />
