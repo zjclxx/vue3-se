@@ -6,8 +6,42 @@
           v-for="(_, index) in divNum"
           :key="index"
           class="ring-item"
-          ref="ringRef">
+          ref="ringRef"
+          :style="{
+            transition: 'transform ' + ringBallTransitionTime + 's ease-in-out',
+          }">
           <span v-text="formatNumberToChinese(index)"></span>
+        </div>
+        <div
+          class="left-rotate"
+          title="左旋"
+          :style="{
+            transform:
+              'translate(' +
+              computedCircleRadius * 0.4 +
+              'px, calc(' +
+              computedCircleRadius +
+              'px - 50%)) rotate(-60deg)',
+          }"
+          @click="handleRotateClick('left')"
+          ref="leftRotateRef">
+          <RotateLeftOutlined :style="{ fontSize: '2vw' }" />
+        </div>
+
+        <div
+          class="right-rotate"
+          title="右旋"
+          :style="{
+            transform:
+              'translate(' +
+              computedCircleRadius * 1.4 +
+              'px, calc(' +
+              computedCircleRadius +
+              'px - 50%)) rotate(60deg)',
+          }"
+          @click="handleRotateClick('right')"
+          ref="rightRotateRef">
+          <RotateRightOutlined :style="{ fontSize: '2vw' }" />
         </div>
       </div>
     </div>
@@ -16,10 +50,15 @@
 </template>
 
 <script setup>
+  import {
+    RotateLeftOutlined,
+    RotateRightOutlined,
+  } from "@ant-design/icons-vue";
   import Back from "@/components/back/index.vue";
   import { useDebounceFn } from "@vueuse/core";
-  import { onMounted, ref, onUnmounted } from "vue";
+  import { onMounted, ref, onUnmounted, nextTick } from "vue";
   import { formatNumberToChinese } from "@/utils";
+  import useLongPress from "@/plugins/continuePress";
 
   const divNum = ref(10); //外围影响的个数  可直接更改
   const computedCircleRadius = ref(0); //会根据屏幕动态计算 取父元素的最短边
@@ -29,15 +68,19 @@
   const parentRef = ref();
   const circleRef = ref();
   const ringRef = ref();
+  const dynamicAngle = ref(0);
+  const ringBallTransitionTime = ref(1);
 
   onMounted(() => {
     initCircle();
     initRing();
     window.addEventListener("resize", handleResize);
+    addLinsteners();
   });
 
   onUnmounted(() => {
     window.removeEventListener("resize", handleResize);
+    removeLinsteners();
   });
 
   const initCircle = () => {
@@ -55,6 +98,7 @@
   };
 
   const initRing = () => {
+    const offsetAhd = (dynamicAngle.value * Math.PI) / 180;
     const avd = 360 / divNum.value; //每一个div对应的角度
     const ahd = (avd * Math.PI) / 180; //每一个div对应的弧度
     // console.log("initRing", ringRef.value);
@@ -62,12 +106,12 @@
       ringRef.value.forEach((item, index) => {
         const x =
           computedCircleRadius.value +
-          Math.sin(ahd * index) * computedCircleRadius.value -
+          Math.sin(ahd * index + offsetAhd) * computedCircleRadius.value -
           divSize.value / 2 +
           "px";
         const y =
           computedCircleRadius.value +
-          Math.cos(ahd * index) * computedCircleRadius.value -
+          Math.cos(ahd * index + offsetAhd) * computedCircleRadius.value -
           divSize.value / 2 +
           "px";
         item.style.transform = `translate(${x},${y})`;
@@ -79,6 +123,62 @@
     initCircle();
     initRing();
   }, 300);
+
+  const handleRotateClick = (type) => {
+    if (ringBallTransitionTime.value >= 1) {
+      ringBallTransitionTime.value = 0.1;
+    }
+    if (type === "left") {
+      dynamicAngle.value += 10;
+    } else {
+      dynamicAngle.value -= 10;
+    }
+    initRing();
+  };
+  const leftRotateRef = ref();
+  const { start: startLeft, stop: stopLeft } = useLongPress(
+    () => handleRotateClick("left"),
+    {},
+  );
+  const rightRotateRef = ref();
+  const { start: startRight, stop: stopRight } = useLongPress(
+    () => handleRotateClick("right"),
+    {},
+  );
+
+  const addLinsteners = () => {
+    if (leftRotateRef.value) {
+      leftRotateRef.value.addEventListener("mousedown", startLeft);
+      leftRotateRef.value.addEventListener("touchstart", startLeft);
+      leftRotateRef.value.addEventListener("mouseup", stopLeft);
+      leftRotateRef.value.addEventListener("mouseleave", stopLeft);
+      leftRotateRef.value.addEventListener("touchend", stopLeft);
+    }
+    if (rightRotateRef.value) {
+      rightRotateRef.value.addEventListener("mousedown", startRight);
+      rightRotateRef.value.addEventListener("touchstart", startRight);
+      rightRotateRef.value.addEventListener("mouseup", stopRight);
+      rightRotateRef.value.addEventListener("mouseleave", stopRight);
+      rightRotateRef.value.addEventListener("touchend", stopRight);
+    }
+  };
+
+  const removeLinsteners = () => {
+    if (leftRotateRef.value) {
+      leftRotateRef.value.removeEventListener("mousedown", startLeft);
+      leftRotateRef.value.removeEventListener("touchstart", startLeft);
+      leftRotateRef.value.removeEventListener("mouseup", stopLeft);
+      leftRotateRef.value.removeEventListener("mouseleave", stopLeft);
+      leftRotateRef.value.removeEventListener("touchend", stopLeft);
+    }
+    if (rightRotateRef.value) {
+      rightRotateRef.value.removeEventListener("mousedown", startRight);
+      rightRotateRef.value.removeEventListener("touchstart", startRight);
+      rightRotateRef.value.removeEventListener("mouseup", stopRight);
+      rightRotateRef.value.removeEventListener("mouseleave", stopRight);
+      rightRotateRef.value.removeEventListener("touchend", stopRight);
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -112,7 +212,25 @@
           font-weight: 500;
           background-color: #dccafe80;
           user-select: none;
-          transition: transform 1s ease-in-out;
+        }
+
+        .left-rotate,
+        .right-rotate {
+          position: absolute;
+          // transform: translate(0, 0);
+          transform-origin: center center;
+          // transition: transform 1s ease-in-out;
+          border-radius: 50%;
+          background-color: #ffffff80;
+          cursor: pointer;
+          padding: 2%;
+          &:hover {
+            background-color: #ebeaea;
+            box-shadow: 0 0 10px #ffffffaa;
+          }
+          &:active {
+            background-color: #fff4f4;
+          }
         }
       }
     }
