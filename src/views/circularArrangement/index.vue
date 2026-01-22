@@ -60,16 +60,17 @@
     // console.log("initRing", ringRef.value);
     if (ringRef.value && ringRef.value.length) {
       ringRef.value.forEach((item, index) => {
-        item.style.left =
+        const x =
           computedCircleRadius.value +
           Math.sin(ahd * index) * computedCircleRadius.value -
           divSize.value / 2 +
           "px";
-        item.style.top =
+        const y =
           computedCircleRadius.value +
           Math.cos(ahd * index) * computedCircleRadius.value -
           divSize.value / 2 +
           "px";
+        item.style.transform = `translate(${x},${y})`;
       });
     }
   };
@@ -101,6 +102,7 @@
         .ring-item {
           width: $box-size;
           height: $box-size;
+          transform: translate(0, 0);
           border-radius: 50%;
           position: absolute;
           display: flex;
@@ -110,6 +112,7 @@
           font-weight: 500;
           background-color: #dccafe80;
           user-select: none;
+          transition: transform 1s ease-in-out;
         }
       }
     }
