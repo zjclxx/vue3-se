@@ -106,15 +106,29 @@
         );
       },
       content: () => {
-        return h(
-          "p",
-          {
-            style: {
-              fontSize: "2rem",
+        return [
+          h(
+            "p",
+            {
+              style: {
+                fontSize: "2rem",
+                textIndent: "2em",
+              },
             },
-          },
-          "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。",
-        );
+            "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。",
+          ),
+          h(
+            "p",
+            {
+              style: {
+                fontSize: "2rem",
+                textIndent: "2em",
+                color: "#f09199",
+              },
+            },
+            "新增点击预览动画和返回动画。",
+          ),
+        ];
       },
       okText: "知道了",
       keyboard: false,
@@ -318,6 +332,8 @@
         absolute: false,
         onComplete: () => gsap.set(box, { zIndex: "auto" }),
       });
+      previewModalRef.value.onclick = null;
+      box.onclick = () => clickEvent(box);
     } else {
       const columnIndex = parseInt(box.dataset.column);
       const rowIndex = parseInt(box.dataset.row);
@@ -346,6 +362,8 @@
         autoAlpha: 0.65,
         duration: 0.35,
       });
+      previewModalRef.value.onclick = () => clickEvent(box);
+      box.onclick = null;
     }
   };
   const initPreview = () => {
@@ -361,6 +379,7 @@
 
 <style lang="scss" scoped>
   .container {
+    padding-top: 16px;
     width: 100%;
     min-height: 100%;
     background-color: #d4e9f1;
@@ -476,7 +495,6 @@
         .waterfall-img-item {
           width: auto;
           height: 100%;
-          cursor: pointer;
         }
       }
     }
