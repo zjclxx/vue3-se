@@ -59,6 +59,11 @@ const guides = [
     title: "思维导图",
     path: "/mindMap",
   },
+  {
+    id: 12,
+    title: "图形变换",
+    path: "/morphSvg",
+  },
 ];
 
 export default guides;

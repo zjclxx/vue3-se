@@ -12,6 +12,25 @@
           }">
           <span v-text="formatNumberToChinese(index)"></span>
         </div>
+        <div class="tip-container" role="region" aria-label="操作提示">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <path
+                d="M 50 50 m -30 0 a 20 20 0 1 0 60 0"
+                id="circle-path"
+                fill="transparent" />
+            </defs>
+
+            <text fill="#0eb83a" font-size="4">
+              <textPath
+                href="#circle-path"
+                startOffset="50%"
+                text-anchor="middle">
+                请尝试点击或长按两边的按钮
+              </textPath>
+            </text>
+          </svg>
+        </div>
         <div
           class="left-rotate"
           title="左旋"
@@ -20,14 +39,13 @@
               'translate(' +
               computedCircleRadius * 0.4 +
               'px, calc(' +
-              computedCircleRadius +
+              computedCircleRadius * 0.8 +
               'px - 50%)) rotate(-60deg)',
           }"
           @click="handleRotateClick('left')"
           ref="leftRotateRef">
           <RotateLeftOutlined :style="{ fontSize: '2vw' }" />
         </div>
-
         <div
           class="right-rotate"
           title="右旋"
@@ -36,7 +54,7 @@
               'translate(' +
               computedCircleRadius * 1.4 +
               'px, calc(' +
-              computedCircleRadius +
+              computedCircleRadius * 0.8 +
               'px - 50%)) rotate(60deg)',
           }"
           @click="handleRotateClick('right')"
@@ -231,6 +249,13 @@
           &:active {
             background-color: #fff4f4;
           }
+        }
+
+        .tip-container {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          user-select: none;
         }
       }
     }

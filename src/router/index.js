@@ -67,6 +67,11 @@ const routes = [
     component: () => import("@/views/mindMap/index.vue"),
     name: "MindMap",
   },
+  {
+    path: "/morphSvg",
+    component: () => import("@/views/morphSvg/index.vue"),
+    name: "MorphSvg",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),
