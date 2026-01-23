@@ -4,15 +4,22 @@
       class="waterfall-container"
       :class="listNum === 1 ? 'single-column' : 'multiple-column'"
       ref="wfCRef">
-      <div v-for="item in columnInfoList" :key="item.index" class="column-list">
-        <img
-          v-for="img in item.images"
-          :key="img.uuid"
-          :src="img.url"
-          alt=""
-          :width="columnWidth"
-          class="waterfall-img-item"
-          @load="handleImgLoad" />
+      <div
+        v-for="(item, index) in columnInfoList"
+        :key="item.index"
+        class="column-list">
+        <div class="placeholder-div" :style="{ width: columnWidth + 'px' }">
+          <img
+            v-for="(img, rowIndex) in item.images"
+            :key="img.uuid"
+            :src="img.url"
+            alt=""
+            :data-column="index"
+            :data-row="rowIndex"
+            :width="columnWidth"
+            class="waterfall-img-item"
+            @load="handleImgLoad" />
+        </div>
       </div>
     </div>
     <div v-if="isNoMore" class="no-more">
@@ -20,6 +27,11 @@
     </div>
     <div v-else class="load-more" ref="loadMoreRef">
       <span class="more-text">加载中...</span>
+    </div>
+
+    <div class="preview-modal" ref="previewModalRef">
+      <div class="overlay" ref="previewModalOverlayRef"></div>
+      <div class="content" ref="previewModalContentRef"></div>
     </div>
   </div>
 </template>
@@ -34,6 +46,10 @@
     removeInterObserver,
   } from "@/utils/IntersectionObserver.js";
   import { buildUUID, findMindex } from "@/utils/index.js";
+  import { gsap } from "gsap";
+  import { Flip } from "gsap/Flip";
+
+  gsap.registerPlugin(Flip);
   // import cache from "@/plugins/cache.js";
 
   const wfCRef = ref(null);
@@ -86,7 +102,7 @@
               fontSize: "2.5rem",
             },
           },
-          "首次加载说明"
+          "首次加载说明",
         );
       },
       content: () => {
@@ -97,7 +113,7 @@
               fontSize: "2rem",
             },
           },
-          "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。"
+          "瀑布流展示，具有响应式布局，动态计算列数。第一次加载如果还能展示则会继续加载图片，直到加载更多被挤在视口下面才停止加载。",
         );
       },
       okText: "知道了",
@@ -128,7 +144,7 @@
     const allImgKeys = Object.keys(waterfallImages).filter(
       (_, index) =>
         index >= (pageIndex.value - 1) * pageSize &&
-        index < pageIndex.value * pageSize
+        index < pageIndex.value * pageSize,
     );
     if (allImgKeys.length === 0) {
       removeInterObserver();
@@ -218,6 +234,9 @@
         }
       });
     }
+    nextTick(() => {
+      initPreview();
+    });
     if (isNoMore.value) {
       removeInterObserver();
     } else {
@@ -239,7 +258,7 @@
       if (isLoadFinishAllImg.value) {
         debounceReArrange();
       }
-    }
+    },
   );
 
   watch(
@@ -249,34 +268,108 @@
         // console.log("isLoadFinishAllImg改变值");
         debounceReArrange(); //第一次变化，也就是所有图片加载完
       }
-    }
+    },
   );
 
   watch(
     () => wfCRefWidth.value,
     () => {
-      // console.log("111", wfCRefWidth.value);
       if (wfCRefWidth.value > 0) {
         debounceComputeNum();
       }
     },
     {
       immediate: true,
-    }
+    },
   );
+
+  const previewModalRef = ref();
+  const previewModalOverlayRef = ref();
+  const previewModalContentRef = ref();
+  const box2DIndex = ref([]);
+
+  const clickEvent = (box) => {
+    if (box2DIndex.value.length !== 0) {
+      const boxes = gsap.utils.toArray(".column-list");
+      const colItem = boxes[box2DIndex.value[0]].firstChild;
+      const currentColInnerList = gsap.utils.toArray(colItem.children);
+      const state = Flip.getState([box, ...currentColInnerList]);
+
+      // const state2 = Flip.getState(currentColInnerList);
+      if (currentColInnerList.length === 0) {
+        colItem.appendChild(box);
+      } else {
+        if (box2DIndex.value[1] > currentColInnerList.length - 1) {
+          colItem.appendChild(box);
+        } else {
+          colItem.insertBefore(box, currentColInnerList[box2DIndex.value[1]]);
+        }
+      }
+      box2DIndex.value = [];
+      gsap.to([previewModalRef.value, previewModalOverlayRef.value], {
+        autoAlpha: 0,
+        ease: "power1.inOut",
+        duration: 0.35,
+      });
+      gsap.set(box, { zIndex: 1002 });
+      Flip.from(state, {
+        duration: 0.7,
+        ease: "power1.inOut",
+        absolute: false,
+        onComplete: () => gsap.set(box, { zIndex: "auto" }),
+      });
+    } else {
+      const columnIndex = parseInt(box.dataset.column);
+      const rowIndex = parseInt(box.dataset.row);
+      box2DIndex.value = [columnIndex, rowIndex];
+
+      const boxes = gsap.utils.toArray(".column-list");
+      const colItem = boxes[box2DIndex.value[0]].firstChild;
+      const currentColInnerList = gsap.utils.toArray(colItem.children);
+      // const state = Flip.getState(box);
+      const state = Flip.getState(currentColInnerList);
+      previewModalContentRef.value.appendChild(box);
+      const boxClassList = box.classList;
+      console.log("boxClassList", boxClassList);
+      if (boxClassList.contains("waterfall-animation-img")) {
+        boxClassList.remove("waterfall-animation-img");
+      }
+      if (!boxClassList.contains("waterfall-filp-text")) {
+        boxClassList.add("waterfall-filp-text");
+      }
+      gsap.set(previewModalRef.value, { autoAlpha: 1 });
+      Flip.from(state, {
+        duration: 0.7,
+        ease: "power1.inOut",
+      });
+      gsap.to(previewModalOverlayRef.value, {
+        autoAlpha: 0.65,
+        duration: 0.35,
+      });
+    }
+  };
+  const initPreview = () => {
+    const boxesContent = gsap.utils.toArray(".waterfall-img-item");
+
+    boxesContent.forEach((box) => {
+      // box.removeEventListener("click", () => clickEvent(box));
+      // box.addEventListener("click", () => clickEvent(box));
+      box.onclick = () => clickEvent(box);
+    });
+  };
 </script>
 
 <style lang="scss" scoped>
   .container {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background-color: #d4e9f1;
     display: flex;
     // justify-content: center;
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
-    overflow-y: auto;
+    // overflow-y: auto;
     .waterfall-container {
       width: 70%; //模拟数据
       display: flex;
@@ -298,6 +391,12 @@
         }
         .waterfall-img-item {
           opacity: 0;
+          cursor: pointer;
+          position: relative;
+          // transition: all 0.3s ease-in-out;
+          &.waterfall-filp-text {
+            opacity: 1;
+          }
           &.waterfall-animation-img {
             animation-name: WaterfallImgShow;
             animation-duration: 0.6s;
@@ -340,6 +439,45 @@
         font-size: 36px;
         color: #cc4d00;
         font-weight: bold;
+      }
+    }
+
+    .preview-modal {
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: transparent;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0;
+      }
+      .content {
+        height: 90vh;
+        aspect-ratio: 4/5;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .waterfall-img-item {
+          width: auto;
+          height: 100%;
+          cursor: pointer;
+        }
       }
     }
   }
