@@ -21,8 +21,8 @@
     }, 350);
   });
   const miniSize = 10;
-  const maxiSize = 350;
-  const normalSize = ref(200);
+  const maxiSize = 480;
+  const normalSize = ref(180);
   const handleMousewheel = (e) => {
     // console.log(e);
     if (e.deltaY > 0) {
@@ -39,6 +39,7 @@
     height: 100%;
     overflow: hidden;
     // overflow: hidden auto;
+    background: #0e0d0dcc;
     .throughText {
       height: 100%;
       margin-bottom: 0;
@@ -55,6 +56,7 @@
         center/cover;
       background-clip: text;
       font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      user-select: none;
     }
   }
 </style>
