@@ -133,6 +133,9 @@
       okText: "知道了",
       keyboard: false,
       width: "30%",
+      style: {
+        minWidth: "600px",
+      },
       icon: null,
       onOk: () => {
         // cache.session.setJSON(FIRST_DESC, 'first-loaded');
@@ -346,7 +349,6 @@
       const state = Flip.getState(currentColInnerList);
       previewModalContentRef.value.appendChild(box);
       const boxClassList = box.classList;
-      console.log("boxClassList", boxClassList);
       if (boxClassList.contains("waterfall-animation-img")) {
         boxClassList.remove("waterfall-animation-img");
       }
