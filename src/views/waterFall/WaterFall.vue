@@ -242,7 +242,8 @@
     if (staticImgArr.length) {
       // console.log("bbb");
       staticImgArr.forEach((item) => {
-        const minHeightArr = columnInfoList.value.map((item) => item.allHeight);
+        console.log("item123", item);
+        const minHeightArr = columnInfoList.value.map((x) => x.allHeight);
         const minIndex = findMindex(minHeightArr);
         // console.log("minIndex", minIndex);
         if (columnInfoList.value.length) {
@@ -352,8 +353,8 @@
       if (boxClassList.contains("waterfall-animation-img")) {
         boxClassList.remove("waterfall-animation-img");
       }
-      if (!boxClassList.contains("waterfall-filp-text")) {
-        boxClassList.add("waterfall-filp-text");
+      if (!boxClassList.contains("waterfall-filp-img")) {
+        boxClassList.add("waterfall-filp-img");
       }
       gsap.set(previewModalRef.value, { autoAlpha: 1 });
       Flip.from(state, {
@@ -372,6 +373,14 @@
     const boxesContent = gsap.utils.toArray(".waterfall-img-item");
 
     boxesContent.forEach((box) => {
+      const boxClassList = box.classList;
+      if (boxClassList.contains("waterfall-filp-img")) {
+        boxClassList.remove("waterfall-filp-img");
+      }
+      if (!boxClassList.contains("waterfall-animation-img")) {
+        boxClassList.add("waterfall-animation-img");
+      }
+
       // box.removeEventListener("click", () => clickEvent(box));
       // box.addEventListener("click", () => clickEvent(box));
       box.onclick = () => clickEvent(box);
@@ -415,7 +424,7 @@
           cursor: pointer;
           position: relative;
           // transition: all 0.3s ease-in-out;
-          &.waterfall-filp-text {
+          &.waterfall-filp-img {
             opacity: 1;
           }
           &.waterfall-animation-img {

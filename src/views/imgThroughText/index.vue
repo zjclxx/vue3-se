@@ -7,7 +7,7 @@
       }">
       PLANTS VS ZOMBIES
     </h1>
-    <Back></Back>
+    <Back theme="light"></Back>
   </div>
 </template>
 
@@ -52,7 +52,7 @@
       font-weight: 700;
       color: transparent;
       white-space: nowrap;
-      background: url("../../assets/images/throughText/pvz.jpg") no-repeat
+      background: url("../../assets/images/throughText/pvz.png") no-repeat
         center/cover;
       background-clip: text;
       font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
