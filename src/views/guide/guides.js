@@ -64,6 +64,11 @@ const guides = [
     title: "图形变换",
     path: "/morphSvg",
   },
+  {
+    id: 13,
+    title: "幸运转盘",
+    path: "/luckWheel",
+  },
 ];
 
 export default guides;

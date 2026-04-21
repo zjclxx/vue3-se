@@ -72,6 +72,11 @@ const routes = [
     component: () => import("@/views/morphSvg/index.vue"),
     name: "MorphSvg",
   },
+  {
+    path: "/luckWheel",
+    component: () => import("@/views/luckWheel/index.vue"),
+    name: "LuckWheel",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

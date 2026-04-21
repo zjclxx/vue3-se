@@ -102,7 +102,6 @@
   .container {
     width: 1030px;
     height: 297px;
-    // background-image: url("../../assets/images/ball/banner2.jpg");
     // background-position: center;
     // background-repeat: no-repeat;
     // background-size: 100% 100%;
@@ -416,7 +415,6 @@
     margin-top: 100px;
     width: 1030px;
     height: 297px;
-    // background-image: url("../../assets/images/ball/banner2.jpg");
     // background-position: center;
     // background-repeat: no-repeat;
     // background-size: 100% 100%;
