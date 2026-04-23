@@ -2,7 +2,11 @@
   <div class="luck-wheel-wrapper">
     <div class="marker"></div>
     <section class="wheel"></section>
-    <button class="draw-btn" @click="">抽奖</button>
+    <div class="draw-btn cone-border">
+      <div class="self-box">
+        <span>抽奖</span>
+      </div>
+    </div>
     <Back theme="light" />
   </div>
 </template>
@@ -12,6 +16,7 @@
   import { gsap } from "gsap";
   import { InertiaPlugin } from "gsap/InertiaPlugin";
   import { onMounted, getCurrentInstance } from "vue";
+  import { Modal as AModal } from "ant-design-vue";
 
   gsap.registerPlugin(InertiaPlugin);
   const init = () => {
@@ -88,7 +93,24 @@
             duration: 3.5,
           },
           delay: 0.175,
-          onComplete: () => (isTweening = false),
+          onComplete: () => {
+            isTweening = false;
+            AModal.info({
+              title: "抽奖结果",
+              content:
+                "恭喜中奖了，中奖的编号是：" + (landingElement + 1) + "号",
+              okText: "知道了",
+              keyboard: false,
+              width: "30%",
+              style: {
+                minWidth: "600px",
+              },
+              icon: null,
+              onOk: () => {
+                // cache.session.setJSON(FIRST_DESC, 'first-loaded');
+              },
+            });
+          },
         });
       }
     });
@@ -108,12 +130,13 @@
     justify-content: center;
     align-items: center;
     background-color: #000;
+    position: relative;
+    z-index: 1;
     .wheel {
       width: 50vmin;
       height: 50vmin;
       border-radius: 999px;
       border: 1px solid #fff;
-      cursor: pointer;
       user-select: none;
       position: relative;
     }
@@ -201,11 +224,46 @@
 
     .draw-btn {
       margin-top: 20px;
-      padding: 20px 70px;
-      font-size: 1.5vw;
       cursor: pointer;
-      border-radius: 6px;
-      background-color: #e5e5e6;
+      &.cone-border {
+        position: relative;
+        padding: 4px;
+        .self-box {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #302e2e;
+          color: #fff;
+          font-size: 2vw;
+          border-radius: 10px;
+          padding: 20px 70px;
+          font-size: 1.5vw;
+        }
+
+        &::after,
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          background-image: conic-gradient(
+            #ff4545,
+            #00ff99,
+            #006aff,
+            #ff0095,
+            #ff4545
+          );
+          z-index: -1;
+          border-radius: 10px;
+        }
+
+        &::before {
+          filter: blur(1.2rem);
+        }
+      }
     }
   }
 </style>
