@@ -77,6 +77,11 @@ const routes = [
     component: () => import("@/views/luckWheel/index.vue"),
     name: "LuckWheel",
   },
+  {
+    path: "/cutFile",
+    component: () => import("@/views/cutFile/index.vue"),
+    name: "CutFile",
+  },
   // {
   //   path: "/404",
   //   component: () => import("@/views/404"),

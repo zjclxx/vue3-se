@@ -69,6 +69,11 @@ const guides = [
     title: "幸运转盘",
     path: "/luckWheel",
   },
+  {
+    id: 14,
+    title: "大文件分片",
+    path: "/cutFile",
+  },
 ];
 
 export default guides;
